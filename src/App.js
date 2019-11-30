@@ -10,7 +10,7 @@ import TodoList from './Components/TodoList/TodoList'
 function App() {
 
   const todoData = [
-    {label: 'Drink Coffe', important: false, id: 1, done: false},
+    {label: 'Drink Coffe', important: false, id: 1, done: true},
     {label: 'Build awesome app', important: true, id: 2, done: false},
     {label: 'Die', important: false, id: 3, done: false}
   ]
