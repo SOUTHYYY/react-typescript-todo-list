@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './TodoListItem.css'
 
 
-const TodoListItem = ({ important = false, done, label }) => {
+const TodoListItem = ({label, important, done, onDelete}) => {
 
     const [isDone, setIsDone] = useState(done)
     const [isImportant, setIsImportant] = useState(important)
@@ -24,7 +24,6 @@ const TodoListItem = ({ important = false, done, label }) => {
         classNames += ' done';
     }
 
-
     return (
         <span className={classNames}>
             <span
@@ -38,7 +37,8 @@ const TodoListItem = ({ important = false, done, label }) => {
             </button>
 
             <button type="button"
-                className="btn btn-outline-danger btn-sm float-right">
+                className="btn btn-outline-danger btn-sm float-right"
+                onClick={onDelete}>
                 <i className="fa fa-trash-o"></i>
             </button>
         </span>
