@@ -12,26 +12,31 @@ export class App extends Component {
   maxLength = 100
   state = {
     items: [
-      { id: 1, label: 'Drink Coffee', important: false, done: false },
-      { id: 2, label: 'Learn React', important: false, done: false },
-      { id: 3, label: 'Make Awesome App', important: false, done: false }
+      this.createToDoItem('Drink Coffee'),
+      this.createToDoItem('Learn React'),
+      this.createToDoItem('Make Awesome App')
     ],
     filter: 'all',
     search: ''
   }
-  onItemAded = (text) => {
-    const newItem = {
+
+  createToDoItem(label) {
+    return {
       id: this.maxLength++,
-      label: text,
+      label,
       important: false,
       done: false
     }
-    this.setState(({items}) => {
+  }
+
+  onItemAded = (text) => {
+    const newItem = this.createToDoItem(text)
+    this.setState(({ items }) => {
       const newArr = [
         ...items,
         newItem
       ]
-      return{
+      return {
         items: newArr
       }
     })
@@ -44,22 +49,85 @@ export class App extends Component {
         ...state.items.slice(0, idx),
         ...state.items.slice(idx + 1)
       ]
-      return {items}
+      return { items }
     })
   }
 
+  onToggleProperty = (arr, id, propName) => {
+    const idx = arr.findIndex((item) => item.id === id)
+    const oldItem = arr[idx]
+    const newItem = { ...oldItem, [propName]: !oldItem[propName] }
+    return[
+      ...arr.slice(0, idx),
+      newItem,
+      ...arr.slice(idx + 1)
+    ]
+  }
+
+  onToggleImportant = (id) => {
+    this.setState(({ items }) => {
+      return {
+        items: this.onToggleProperty(items, id, 'important')
+      }
+    })
+  }
+
+  onToggleDone = (id) => {
+    this.setState(({ items }) => {
+      return {
+        items: this.onToggleProperty(items, id, 'done')
+      }
+    })
+  }
+
+  onFilterChange = (filter) => {
+    this.setState({ filter })
+  }
+
+  onSearchChange = (search) => { 
+    this.setState({ search })
+    console.log(search)
+  }
+
+  searchItems = (items, search) => {
+    if(!search.length){
+      return items
+    }
+
+    return items.filter((item) => {
+      return item.label.toLowerCase().indexOf(search.toLowerCase()) > -1;
+    });
+  }
+
+  filterItems(items, filter) {
+    if (filter === 'all') {
+      return items;
+    } else if (filter === 'active') {
+      return items.filter((item) => (!item.done));
+    } else if (filter === 'done') {
+      return items.filter((item) => item.done);
+    }
+  }
+
   render() {
-    const {items, search, filter} = this.state
+    const { items, search, filter } = this.state
     const doneCount = items.filter((items) => items.done === true).length
     const toDoCount = items.length - doneCount
-    debugger
+    const vilibleItems = this.searchItems(this.filterItems(items, filter), search);
     return (
       <div className='app-wrapper'>
-        <Header doneCount={doneCount} toDoCount={toDoCount}/>
-        <Navigation />
-        <TodoList items={items}
-        onDelete={this.onDelete}/>
-        <AddItemForm onItemAded={this.onItemAded}/>
+        <Header doneCount={doneCount} toDoCount={toDoCount} />
+        <Navigation 
+          filter={filter}
+          onFilterChange={this.onFilterChange} 
+          onSearchChange={this.onSearchChange}/>
+        <TodoList
+          items={vilibleItems}
+          onDelete={this.onDelete}
+          onToggleImportant={this.onToggleImportant}
+          onToggleDone={this.onToggleDone}
+        />
+        <AddItemForm onItemAded={this.onItemAded} />
       </div>
     );
   }
