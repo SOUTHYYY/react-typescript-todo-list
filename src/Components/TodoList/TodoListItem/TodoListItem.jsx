@@ -2,25 +2,14 @@ import React, { useState } from 'react';
 import './TodoListItem.css'
 
 
-const TodoListItem = ({label, important, done, onDelete}) => {
-
-    const [isDone, setIsDone] = useState(done)
-    const [isImportant, setIsImportant] = useState(important)
-
-    let onToggleDone = () => {
-        setIsDone(!isDone)
-    }
-
-    let onToggleImportant = () => {
-        setIsImportant(!isImportant)
-    }
+const TodoListItem = ({label, important, done, onDelete, onToggleImportant, onToggleDone}) => {
 
     let classNames = 'todo-list-item';
-    if (isImportant) {
+    if (important) {
         classNames += ' important';
     }
 
-    if (isDone) {
+    if (done) {
         classNames += ' done';
     }
 
