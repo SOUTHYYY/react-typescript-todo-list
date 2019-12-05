@@ -28,18 +28,7 @@ const App: React.FC = () => {
   const onDelete = (id: number) => {
     setTodos(prev => prev.filter(todo => todo.id !== id))
   }
-
-  // const onToggleProperty = (arr, id, propName) => {
-  //   const idx = arr.findIndex((item) => item.id === id)
-  //   const oldItem = arr[idx]
-  //   const newItem = { ...oldItem, [propName]: !oldItem[propName] }
-  //   return [
-  //     ...arr.slice(0, idx),
-  //     newItem,
-  //     ...arr.slice(idx + 1)
-  //   ]
-  // }
-
+  
   const onToggleImportant = (id: number) => {
     setTodos(prev =>
       prev.map(todo => {
