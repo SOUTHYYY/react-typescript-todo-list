@@ -1,6 +1,10 @@
 import React from 'react';
 import './ItemStatusFilter.css'
 
+interface IItemStatusFilter {
+    filter: string | undefined,
+    onFilterChange: (filter: string) => void,
+}
 
 const filterButtons = [
     { name: 'all', label: 'All' },
@@ -8,7 +12,7 @@ const filterButtons = [
     { name: 'done', label: 'Done' }
 ];
 
-const ItemStatusFilter = ({ filter, onFilterChange = () => { } }) => {
+const ItemStatusFilter: React.FC<IItemStatusFilter> = ({ filter, onFilterChange}) => {
     const buttons = filterButtons.map(({ name, label }) => {
         const isActive = name === filter;
         const classNames = 'btn ' + (isActive ? 'btn-info' : 'btn-outline-secondary');

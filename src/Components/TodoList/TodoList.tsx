@@ -1,9 +1,17 @@
 import React from 'react';
 import TodoListItem from './TodoListItem/TodoListItem'
 import './TodoList.css'
+import { ITodos } from '../../Interfaces/Interfaces'
 
-const TodoList = ({ items, onDelete,
-                onToggleImportant, onToggleDone}) => {
+interface ITodoList  {
+    items: ITodos[],
+    onDelete: (id: number) => void,
+    onToggleImportant: (id: number) => void,
+    onToggleDone: (id: number) => void
+}
+
+const TodoList: React.FC<ITodoList> = ({ items, onDelete,
+    onToggleImportant, onToggleDone}) => {
 
     const elements = items.map((item) => {
         const { id, ...itemProps } = item;

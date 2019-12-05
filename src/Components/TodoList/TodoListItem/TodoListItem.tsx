@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './TodoListItem.css'
 
-
-const TodoListItem = ({label, important, done, onDelete, onToggleImportant, onToggleDone}) => {
+interface ITodoListItem {
+    label: string,
+    important: boolean,
+    done: boolean,
+    onDelete: () => void,
+    onToggleImportant: () => void
+    onToggleDone: () => void,
+}
+const TodoListItem: React.FC<ITodoListItem> = ({label, important, done,
+     onDelete, onToggleImportant, onToggleDone}) => {
 
     let classNames = 'todo-list-item';
     if (important) {
